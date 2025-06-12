@@ -98,12 +98,21 @@ int main() {
     });
 
     auto future2 = pool.submit([](int x, int y){ return x + y; }, 5, 3);
+    auto future3 = pool.submit([](int x, int y){ return x * y; }, 7, 2);
+
+    pool.submit([](){ 
+        for (int i = 0; i < 1000; ++i) {
+            std::cout <<  ".";
+        }
+        std::cout << std::endl;
+     });
 
     std::cout << "Tasks submitted. Main thread continues." << std::endl;
 
     // Get results from the futures. This will block until the tasks are complete.
     std::cout << "Result 1: " << future1.get() << std::endl;
     std::cout << "Result 2: " << future2.get() << std::endl;
+    std::cout << "Result 3: " << future3.get() << std::endl;
 
     return 0; // The pool's destructor will be called here, joining all threads.
 }
